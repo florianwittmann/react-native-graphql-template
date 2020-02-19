@@ -31,6 +31,13 @@
     "react-test-renderer": "16.12.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "./jest.setup.js",
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|native-base|@react-navigation|@react-native-community|@fortawesome/react-native-fontawesome|react-navigation|react-native-fabric)"
+    ]
   }
 }
