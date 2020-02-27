@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 
 const DetailPageScreen = () => (
-  <View>
+  <View testID="detail_screen">
     <Text>DetailPage</Text>
   </View>
 );

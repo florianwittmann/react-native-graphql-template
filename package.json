@@ -7,7 +7,11 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:e2e": "detox test -c ios.sim.debug",
+    "test:e2e:build": "detox build -c ios.sim.debug",
+    "test:e2e:ci": "detox test -c ios.sim.release --cleanup",
+    "test:e2e:build:ci": "detox build -c ios.sim.release"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
@@ -25,6 +29,7 @@
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^0.0.7",
     "babel-jest": "^25.1.0",
+    "detox": "^15.4.2",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.58.0",
@@ -36,8 +41,32 @@
       "./jest.setup.js",
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
+    "testPathIgnorePatterns": [
+      "./e2e"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|native-base|@react-navigation|@react-native-community|@fortawesome/react-native-fontawesome|react-navigation|react-native-fabric)"
     ]
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/rngraphqltemplate.app",
+        "build": "xcodebuild -workspace ios/rngraphqltemplate.xcworkspace -UseNewBuildSystem=NO -scheme rngraphqltemplate -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 8"
+        }
+      },
+      "ios.sim.release": {
+        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/rngraphqltemplate.app",
+        "build": "xcodebuild -workspace ios/rngraphqltemplate.xcworkspace -UseNewBuildSystem=NO -scheme rngraphqltemplate -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 8"
+        }
+      }
+    },
+    "test-runner": "jest"
   }
 }

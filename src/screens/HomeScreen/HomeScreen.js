@@ -4,9 +4,10 @@ import {Button} from '../../components';
 import screenNames from '../../navigation/screenNames';
 
 const HomeScreen = ({navigation}) => (
-  <View>
+  <View testID="home_screen">
     <Text>Home</Text>
     <Button
+      testID="show_detail_button"
       onPress={() => {
         navigation.navigate(screenNames.DETAILPAGE);
       }}
