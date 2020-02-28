@@ -95,9 +95,10 @@ matrix:
         - npm install -g detox-cli
         - yarn
         - cd ios && pod install && cd ..
+        - gem install xcpretty-travis-formatter
 
       script:
-        - yarn test:e2e:build:ci
+        - yarn test:e2e:build:ci | xcpretty -f `xcpretty-travis-formatter`
         - yarn test:e2e:ci
 
     - language: node_js
