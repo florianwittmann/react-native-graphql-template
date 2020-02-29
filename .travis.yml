@@ -65,6 +65,42 @@ matrix:
       script:
         - xcodebuild -workspace ./ios/rngraphqltemplate.xcworkspace -scheme rngraphqltemplate -configuration Debug -sdk iphonesimulator -derivedDataPath ./ios/build
 
+    - language: objective-c
+      os: osx
+      xcode_workspace: './ios/rngraphqltemplate.xcworkspace'
+      xcode_scheme: rngraphqltemplate
+      xcode_sdk: iphonesimulator9.0
+      osx_image: xcode11.3
+      podfile: './ios/Podfile'
+      xcode_destination: platform=iOS Simulator,OS=11.4,name=iPhone X
+      env: NODE_VERSION=12.16.1
+
+      cache:
+        yarn: true
+        cocoapods: true
+
+      install:
+        - nvm --version
+        - echo $NODE_VERSION
+        - xcodebuild -version
+        - sudo launchctl limit maxfiles 2048 unlimited
+        - sudo ulimit -n 10000
+        - nvm install $NODE_VERSION
+        - nvm use $NODE_VERSION
+        - nvm alias default $NODE_VERSION
+        - brew install yarn --ignore-dependencies
+        - brew tap wix/brew
+        - brew install applesimutils
+        - npm install -g react-native-cli
+        - npm install -g detox-cli
+        - yarn
+        - cd ios && pod install && cd ..
+        - gem install xcpretty-travis-formatter
+
+      script:
+        - yarn test:e2e:build:ci | xcpretty -f `xcpretty-travis-formatter`
+        - yarn test:e2e:ci
+
     - language: node_js
       node_js:
         - 12
